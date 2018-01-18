@@ -30,8 +30,7 @@ class ActivityController extends BaseController
         $search && $map['title'] = '%'.$search.'%';
 
         $list = $this->ActivityRepository->getList($map, $page, $pageRows);
-
-        dump($list);
+        return $this->Response->successWithData($list);
     }
 
     /**
