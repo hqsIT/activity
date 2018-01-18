@@ -18,6 +18,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::group(['prefix' => 'activity'], function () {
-    Route::get('detail/{id}', 'home\ActivityController@detail');
-    Route::get('getLists', 'home\ActivityController@lists');
+    Route::get('detail/{id}', 'Home\ActivityController@detail');
+    Route::get('getLists', 'Home\ActivityController@lists');
 });
