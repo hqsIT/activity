@@ -13,6 +13,7 @@ class Activity extends Model
     protected $table = 'activity';
     const CREATED_AT = 'create_time';
     const UPDATED_AT = 'update_time';
+    const ACTIVITY_TYPE = ['未知', '足球', '篮球', '羽毛球', '乒乓'];
 
     public function getCreateTimeAttribute($date)
     {
@@ -31,5 +32,10 @@ class Activity extends Model
     public function getEndTimeAttribute($date)
     {
         return date('Y/m/d h:i:s', $date);
+    }
+
+    public function getTypeAttribute($data)
+    {
+        return static::ACTIVITY_TYPE[$data];
     }
 }
