@@ -21,3 +21,7 @@ Route::group(['prefix' => 'activity'], function () {
     Route::get('detail/{id}', 'Home\ActivityController@detail');
     Route::get('getLists', 'Home\ActivityController@lists');
 });
+
+Route::group(['prefix' => 'user'], function () {
+    Route::post('wxLogin', 'Home\UserController@wxLogin');
+});
