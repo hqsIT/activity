@@ -18,6 +18,6 @@ class FileRepository
     {
         $savePath = 'uploads' . DIRECTORY_SEPARATOR . date('Ym') . DIRECTORY_SEPARATOR . date('d') . DIRECTORY_SEPARATOR;
         $path = $File->store($savePath);
-        return env('APP_URL') . $path;
+        return env('APP_URL') . '/' . $path;
     }
 }
