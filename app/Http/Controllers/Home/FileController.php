@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Home;
 
 
+use App\Http\Repositories\FileRepository;
 use App\Http\Responses\ApiResponse;
 use Illuminate\Http\Request;
 
@@ -13,12 +14,12 @@ class FileController extends BaseController
     {
         parent::__construct();
         $this->Response = new ApiResponse();
-
     }
 
     public function upload(Request $request)
     {
-        $path = $request->file('file')->store('uploads/');
+        $FileRepository = new FileRepository();
+        $path = $FileRepository->upload($request->file('file'));
 
         return $this->Response->successWithData(['path' => $path]);
     }
