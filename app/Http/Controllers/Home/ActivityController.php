@@ -48,4 +48,18 @@ class ActivityController extends BaseController
             return $this->Response->error('不存在该活动');
         }
     }
+
+    /**
+     * 发布活动
+     * @param Request $Request
+     * @author klinson <klinson@163.com>
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function create(Request $Request)
+    {
+        $fields = ['title', 'start_time', 'end_time', 'number', 'address', 'content', 'date', 'cover', 'type'];
+        $data = $Request->only($fields);
+        $this->ActivityRepository->store($data);
+        return $this->Response->success('发布成功');
+    }
 }

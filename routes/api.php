@@ -20,6 +20,20 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::group(['prefix' => 'activity'], function () {
     Route::get('detail/{id}', 'Home\ActivityController@detail');
     Route::get('getLists', 'Home\ActivityController@lists');
+    Route::post('create', 'Home\ActivityController@create');
+
+    Route::get('getTypes', function () {
+        $Response = new \App\Http\Responses\ApiResponse();
+        $type = \App\Models\Activity::ACTIVITY_TYPE;
+        unset($type[0]);
+        foreach ($type as $key => $item) {
+            $types[] = [
+                'id' => $key,
+                'value' => $item
+            ];
+        }
+        return $Response->successWithData($types);
+    });
 });
 
 Route::group(['prefix' => 'user'], function () {

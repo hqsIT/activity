@@ -47,4 +47,25 @@ class ActivityRepository
             return [];
         }
     }
+
+    /**
+     * 保存活动
+     * @param $data
+     * @author klinson <klinson@163.com>
+     */
+    public function store($data)
+    {
+        $Activity = new Activity();
+        $Activity->title = $data['title'];
+        $Activity->date = $data['date'];
+        $Activity->start_time = $data['start_time'];
+        $Activity->end_time = $data['end_time'];
+        $Activity->address = $data['address'];
+        $Activity->number = $data['number'];
+        $Activity->content = $data['content'];
+        $Activity->cover = $data['cover'];
+        $Activity->type = $data['type'];
+        $Activity->save();
+
+    }
 }
