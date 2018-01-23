@@ -72,6 +72,7 @@ class ActivityRepository
         $Activity->content = $data['content'];
         $Activity->cover = $data['cover'];
         $Activity->type = $data['type'];
+        $Activity->enroll_number = 0;
         $Activity->uid = session('login_info');
         $Activity->save();
 
