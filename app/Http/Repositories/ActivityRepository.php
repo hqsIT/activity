@@ -8,6 +8,7 @@
  */
 namespace App\Http\Repositories;
 use App\Models\Activity;
+use App\Models\User;
 
 class ActivityRepository
 {
@@ -25,10 +26,12 @@ class ActivityRepository
      */
     public function getList($map, $page = 1, $pageRows = 10)
     {
-        $list = Activity::where($map)
+        $list = Activity::with('publisher')
+            ->where($map)
             ->limit($page * $pageRows, ($page + 1) * $pageRows)
             ->orderBy('create_time', 'desc')
-            ->get();
+            ->get(['*', 'uid as publisher']);
+//        dump($list[0]->publisher);
         return $list;
     }
 
@@ -40,9 +43,13 @@ class ActivityRepository
      */
     public function getInfo($id) : array
     {
-        $info = Activity::where('id', $id)->first();
+        $info = Activity::with('joiners')->where('id', $id)->first(['*', 'id as joiners']);
         if (! empty($info)) {
-            return $info->toArray();
+            $info = $info->toArray();
+            foreach ($info['joiners'] as &$item) {
+                $item['user_info'] = User::find($item['uid']);
+            }
+            return $info;
         } else {
             return [];
         }

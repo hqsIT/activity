@@ -23,4 +23,14 @@ class Activity extends BaseModel
     {
         return static::ACTIVITY_TYPE[$data];
     }
+
+    public function publisher()
+    {
+        return $this->hasOne('App\Models\User', 'id', 'uid');
+    }
+
+    public function joiners()
+    {
+        return $this->hasMany('App\Models\ActivityEnroll', 'activity_id', 'id');
+    }
 }
