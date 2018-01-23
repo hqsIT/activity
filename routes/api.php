@@ -39,3 +39,4 @@ Route::group(['prefix' => 'activity', 'middleware' => ['web']], function () {
 Route::group(['prefix' => 'user'], function () {
     Route::post('wxLogin', 'Home\UserController@wxLogin');
 });
+Route::post('upload', 'Home\FileController@upload');
