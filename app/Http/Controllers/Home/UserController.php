@@ -14,6 +14,7 @@ class UserController extends BaseController
     protected $UserRepository;
     public function __construct()
     {
+        parent::__construct();
         $this->Response = new ApiResponse();
         $this->UserRepository = new UserRepository();
     }
@@ -36,8 +37,9 @@ class UserController extends BaseController
 
         //做登录操作
         $Login = new LoginRepository();
-        $session_id = $Login->get3rdSession();
-        session_id($session_id);
+//        $session_id = $Login->get3rdSession();
+//        $Request->session()->setId($session_id);
+        $session_id = $Request->session()->getId();
 
         $Login->setLoginSession($info['id']);
 

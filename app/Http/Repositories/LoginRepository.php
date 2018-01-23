@@ -31,6 +31,6 @@ class LoginRepository
      */
     public function setLoginSession($uid)
     {
-        session('login_info', $uid);
+        session(['login_info' => $uid]);
     }
 }

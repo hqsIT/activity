@@ -13,6 +13,7 @@ class ActivityController extends BaseController
     protected $ActivityRepository;
     public function __construct()
     {
+        parent::__construct();
         $this->Response = new ApiResponse;
         $this->ActivityRepository = new ActivityRepository();
     }

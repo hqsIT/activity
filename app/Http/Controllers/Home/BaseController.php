@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers\Home;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 
 /**
  * Created by PhpStorm.
@@ -10,5 +11,8 @@ use App\Http\Controllers\Controller;
  */
 class BaseController extends Controller
 {
-
+    public function __construct()
+    {
+//        dump( session('login_info'));exit;
+    }
 }

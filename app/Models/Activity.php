@@ -23,9 +23,4 @@ class Activity extends BaseModel
     {
         return static::ACTIVITY_TYPE[$data];
     }
-
-    public function setUidAttribute($value)
-    {
-        return session('login_info');
-    }
 }

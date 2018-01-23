@@ -17,7 +17,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::group(['prefix' => 'activity'], function () {
+Route::group(['prefix' => 'activity', 'middleware' => ['web']], function () {
     Route::get('detail/{id}', 'Home\ActivityController@detail');
     Route::get('getLists', 'Home\ActivityController@lists');
     Route::post('create', 'Home\ActivityController@create');
