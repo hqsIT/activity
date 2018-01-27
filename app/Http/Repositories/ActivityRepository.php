@@ -8,7 +8,9 @@
  */
 namespace App\Http\Repositories;
 use App\Models\Activity;
+use App\Models\ActivityEnroll;
 use App\Models\User;
+use PHPUnit\Framework\Exception;
 
 class ActivityRepository
 {
@@ -76,5 +78,38 @@ class ActivityRepository
         $Activity->uid = session('login_info');
         $Activity->save();
 
+    }
+
+    /**
+     * 活动报名
+     * @param $activity_id
+     * @author klinson <klinson@163.com>
+     */
+    public function enroll($activity_id)
+    {
+        $info = Activity::where('id', $activity_id)->first();
+        if (empty($info)) {
+            throw new Exception('活动不存在');
+        }
+        if (time() > strtotime($info->date . ' ' . $info->end_time)) {
+            throw new Exception('活动已结束，不可报名');
+        } else if (time() > strtotime($info->date . ' ' . $info->start_time)) {
+            throw new Exception('活动已开始，不可报名');
+        } else {
+            $uid = session('login_info');
+            if ($uid == $info->uid) {
+                throw new Exception('自己发布的活动，不可报名');
+            }
+            $enrollInfo = ActivityEnroll::where('activity_id', $activity_id)->where('uid' , $uid)->first();
+
+            if (! empty($enrollInfo)) {
+                throw new Exception('您已经报名，请勿重新报名');
+            }
+            $Enroll = new ActivityEnroll(['activity_id' => $activity_id, 'uid' => $uid]);
+//            $Enroll->activity_id = $activity_id;
+//            $Enroll->uid = $uid;
+//            dump($Enroll->getAttributes());
+            $Enroll->save();
+        }
     }
 }

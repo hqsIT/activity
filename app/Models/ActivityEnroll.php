@@ -2,11 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 
-class ActivityEnroll extends Model
+class ActivityEnroll extends BaseModel
 {
     protected $table = 'activity_enroll';
-    const UPDATED_AT = false;
+    protected $fillable = ['activity_id', 'uid'];
 
 }

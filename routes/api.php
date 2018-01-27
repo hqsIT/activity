@@ -21,6 +21,7 @@ Route::group(['prefix' => 'activity', 'middleware' => ['web']], function () {
     Route::get('detail/{id}', 'Home\ActivityController@detail');
     Route::get('getLists', 'Home\ActivityController@lists');
     Route::post('create', 'Home\ActivityController@create');
+    Route::get('enroll/{activity_id}', 'Home\ActivityController@enroll');
 
     Route::get('getTypes', function () {
         $Response = new \App\Http\Responses\ApiResponse();

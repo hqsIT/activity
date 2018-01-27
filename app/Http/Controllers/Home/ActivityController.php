@@ -6,6 +6,7 @@ use App\Http\Repositories\ActivityRepository;
 use Illuminate\Http\Request;
 use App\Models\Activity;
 use App\Http\Responses\ApiResponse;
+use PHPUnit\Framework\Exception;
 
 class ActivityController extends BaseController
 {
@@ -62,5 +63,21 @@ class ActivityController extends BaseController
         $data = $Request->only($fields);
         $this->ActivityRepository->store($data);
         return $this->Response->success('发布成功');
+    }
+
+    /**
+     * 活动报名
+     * @param $activity_id
+     * @author klinson <klinson@163.com>
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function enroll($activity_id)
+    {
+        try {
+            $this->ActivityRepository->enroll($activity_id);
+            return $this->Response->success('报名成功');
+        } catch (Exception $e) {
+            return $this->Response->error($e->getMessage());
+        }
     }
 }
