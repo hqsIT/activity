@@ -112,6 +112,8 @@ class ActivityRepository
             throw new Exception('活动已结束，不可报名');
         } else if (time() > strtotime($info->date . ' ' . $info->start_time)) {
             throw new Exception('活动已开始，不可报名');
+        } else if ($info['enroll_number'] >= $info['number']) {
+            throw new Exception('报名人数已满');
         } else {
             $uid = session('login_info');
             if ($uid == $info->uid) {
