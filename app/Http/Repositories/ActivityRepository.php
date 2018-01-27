@@ -58,6 +58,23 @@ class ActivityRepository
     }
 
     /**
+     * 是否参与此活动
+     * @param $activity_id
+     * @author klinson <klinson@163.com>
+     * @return bool
+     */
+    public function isJoined($activity_id, $uid)
+    {
+        $enrollInfo = ActivityEnroll::where('activity_id', $activity_id)->where('uid' , $uid)->first();
+
+        if (! empty($enrollInfo)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
      * 保存活动
      * @param $data
      * @author klinson <klinson@163.com>
