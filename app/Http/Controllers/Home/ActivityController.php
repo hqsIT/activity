@@ -23,7 +23,7 @@ class ActivityController extends BaseController
     public function lists(Request $request)
     {
         $page = $request->get('page', 1);
-        $pageRows = $request->get('page_rows', 10);
+        $pageRows = $request->get('page_rows', 1000);
         $search = trim($request->get('search', ''));
 
         $map = [
@@ -44,6 +44,17 @@ class ActivityController extends BaseController
     public function detail($id)
     {
         $info = $this->ActivityRepository->getInfo($id);
+        $status = 0;
+        if (strtotime($info['date'] . ' ' . $info['start_time']) > time()) {
+            $info['tip'] = $this->ActivityRepository->isJoined($id, session('login_info')) ? '已报名' : '';
+            empty($info['tip']) && $info['enroll_number'] >= $info['number'] && $info['tip'] = '报名人数已满';
+            empty($info['tip']) && $status = 1;
+        } else if (strtotime($info['date'] . ' ' . $info['end_time']) <= time()) {
+            $info['tip'] = '活动已结束';
+        } else if (strtotime($info['date'] . ' ' . $info['start_time']) <= time()) {
+            $info['tip'] = '活动已开始';
+        }
+        $info['activity_status'] = $status;
         if (! empty($info)) {
             return $this->Response->successWithData($info);
         } else {
