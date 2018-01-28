@@ -91,4 +91,40 @@ class ActivityController extends BaseController
             return $this->Response->error($e->getMessage());
         }
     }
+
+    /**
+     * 我发起的
+     * @param Request $request
+     * @author klinson <klinson@163.com>
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function myActivity(Request $request)
+    {
+        $page = $request->get('page', 1);
+        $pageRows = $request->get('page_rows', 1000);
+        $search = trim($request->get('search', ''));
+
+        $map = [
+            'status' => 1,
+            'uid' => session('login_info')
+        ];
+        $search && $map['title'] = '%'.$search.'%';
+
+        $list = $this->ActivityRepository->getList($map, $page, $pageRows);
+        return $this->Response->successWithData($list);
+    }
+
+    public function myJoinActivity(Request $request)
+    {
+        $page = $request->get('page', 1);
+        $pageRows = $request->get('page_rows', 1000);
+        $search = trim($request->get('search', ''));
+
+        $search && $map['title'] = '%'.$search.'%';
+
+        $list = $this->ActivityRepository->getMyJoinActivityIds(session('login_info'), $page, $pageRows);
+        return $this->Response->successWithData($list);
+    }
+
+
 }

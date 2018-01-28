@@ -38,6 +38,30 @@ class ActivityRepository
     }
 
     /**
+     * 获取我参与的活动
+     * @param $uid
+     * @author klinson <klinson@163.com>
+     * @return array
+     */
+    public function getMyJoinActivityIds($uid, $page = 1, $pageRows = 10)
+    {
+        $list = ActivityEnroll::where('uid', $uid)->orderBy('create_time', 'desc')->get(['activity_id']);
+        $res = [];
+        foreach ($list as $item) {
+            $res[] = $item->activity_id;
+        }
+        $map = ['status' => 1];
+        $list = Activity::with('publisher')
+            ->where($map)
+            ->whereIn('id', $res)
+            ->limit($page * $pageRows, ($page + 1) * $pageRows)
+            ->orderBy('create_time', 'desc')
+            ->get(['*', 'uid as publisher']);
+//        dump($list[0]->publisher);
+        return $list;
+    }
+
+    /**
      * 获取单个详情
      * @param $id
      * @author klinson <klinson@163.com>
