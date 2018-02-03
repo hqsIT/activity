@@ -43,3 +43,10 @@ Route::group(['prefix' => 'user'], function () {
     Route::post('wxLogin', 'Home\UserController@wxLogin');
 });
 Route::post('upload', 'Home\FileController@upload');
+
+Route::group(['prefix' => 'share', 'middleware' => ['web']], function () {
+    Route::post('share', 'Home\ShareController@share');
+    Route::get('getList', 'Home\ShareController@allList');
+    Route::get('my', 'Home\ShareController@myList');
+
+});
