@@ -27,4 +27,9 @@ class Share extends BaseModel
     {
         return date('Y-m-d H:i:s', $value);
     }
+
+    public function favourers()
+    {
+        return $this->hasMany('App\Models\ShareFavour', 'share_id', 'id');
+    }
 }

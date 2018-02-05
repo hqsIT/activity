@@ -12,6 +12,7 @@ namespace App\Http\Repositories;
 use App\Models\Share;
 use App\Models\ShareComment;
 use App\Models\ShareFavour;
+use App\Models\User;
 
 class ShareRepository
 {
@@ -46,11 +47,19 @@ class ShareRepository
         $map = [
             'id' => $share_id
         ];
-        $info = Share::with('publisher')
+        $info = Share::with(['publisher', 'favourers'])
             ->where($map)
             ->orderBy('create_time', 'desc')
             ->first(['*', 'uid as publisher']);
-        return $info;
+        if (! empty($info)) {
+            $info = $info->toArray();
+            foreach ($info['favourers'] as &$item) {
+                $item['user_info'] = User::find($item['uid']);
+            }
+            return $info;
+        } else {
+            return [];
+        }
     }
 
     /**是否已经喜欢
