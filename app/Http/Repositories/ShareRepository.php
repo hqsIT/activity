@@ -10,6 +10,8 @@ namespace App\Http\Repositories;
 
 
 use App\Models\Share;
+use App\Models\ShareComment;
+use App\Models\ShareFavour;
 
 class ShareRepository
 {
@@ -39,4 +41,77 @@ class ShareRepository
         return $list;
     }
 
+    public function info($share_id)
+    {
+        $map = [
+            'id' => $share_id
+        ];
+        $info = Share::with('publisher')
+            ->where($map)
+            ->orderBy('create_time', 'desc')
+            ->first(['*', 'uid as publisher']);
+        return $info;
+    }
+
+    /**是否已经喜欢
+     * @param $share_id
+     * @author klinson <klinson@163.com>
+     * @return int
+     */
+    public function isFavoured($share_id)
+    {
+        $map = [
+            'share_id' => $share_id,
+            'uid' => session('login_info')
+        ];
+        $info = ShareFavour::where($map)->first();
+        return empty($info) ? 0 : 1;
+    }
+
+    /**
+     * 点赞
+     * @param $share_id
+     * @author klinson <klinson@163.com>
+     */
+    public function favour($share_id)
+    {
+        $data = [
+            'share_id' => $share_id,
+            'uid' => session('login_info')
+        ];
+        ShareFavour::firstOrCreate($data);
+    }
+
+    /**
+     * 取消赞
+     * @param $share_id
+     * @author klinson <klinson@163.com>
+     */
+    public function unFavour($share_id)
+    {
+        $data = [
+            'share_id' => $share_id,
+            'uid' => session('login_info')
+        ];
+        $favour = ShareFavour::where($data)->first();
+        $favour->delete();
+    }
+
+    /**
+     * 评论
+     * @param $share_id
+     * @param $content
+     * @param int $to_uid
+     * @author klinson <klinson@163.com>
+     */
+    public function commentTo($share_id, $content, $to_uid = 0)
+    {
+        $data = [
+            'share_id' => $share_id,
+            'uid' => session('login_info'),
+            'content' => $content,
+            'to_uid' => $to_uid
+        ];
+        ShareComment::create($data);
+    }
 }

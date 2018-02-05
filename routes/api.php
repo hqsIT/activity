@@ -48,5 +48,9 @@ Route::group(['prefix' => 'share', 'middleware' => ['web']], function () {
     Route::post('share', 'Home\ShareController@share');
     Route::get('getList', 'Home\ShareController@allList');
     Route::get('my', 'Home\ShareController@myList');
+    Route::get('detail/{share_id}', 'Home\ShareController@detail');
+    Route::get('favour/{share_id}', 'Home\ShareController@favour');
+    Route::get('unFavour/{share_id}', 'Home\ShareController@unFavour');
+    Route::post('commentTo', 'Home\ShareController@commentTo');
 
 });
