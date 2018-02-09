@@ -32,4 +32,9 @@ class Share extends BaseModel
     {
         return $this->hasMany('App\Models\ShareFavour', 'share_id', 'id');
     }
+
+    public function commenters()
+    {
+        return $this->hasMany('App\Models\ShareComment', 'share_id', 'id');
+    }
 }

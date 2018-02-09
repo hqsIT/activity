@@ -12,5 +12,6 @@ namespace App\Models;
 class ShareComment extends BaseModel
 {
     protected $table = 'share_comment';
+    protected $fillable = ['share_id', 'uid', 'content', 'to_uid'];
 
 }

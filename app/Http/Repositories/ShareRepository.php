@@ -47,7 +47,7 @@ class ShareRepository
         $map = [
             'id' => $share_id
         ];
-        $info = Share::with(['publisher', 'favourers'])
+        $info = Share::with(['publisher', 'favourers', 'commenters'])
             ->where($map)
             ->orderBy('create_time', 'desc')
             ->first(['*', 'uid as publisher']);
@@ -56,6 +56,10 @@ class ShareRepository
             foreach ($info['favourers'] as &$item) {
                 $item['user_info'] = User::find($item['uid']);
             }
+            foreach ($info['commenters'] as &$item) {
+                $item['user_info'] = User::find($item['uid']);
+            }
+            unset($item);
             return $info;
         } else {
             return [];
