@@ -19,8 +19,16 @@ class FileController extends BaseController
     public function upload(Request $request)
     {
         $FileRepository = new FileRepository();
-        $path = $FileRepository->upload($request->file('file'));
+        $file = $request->file('file');
+        $path = $FileRepository->upload($file);
 
-        return $this->Response->successWithData(['path' => $path]);
+        // 文件是否上传成功
+        if ($path) {
+            return $this->Response->successWithData(['path' => $path]);
+        } else {
+            return $this->Response->error('上传失败');
+
+        }
+
     }
 }
